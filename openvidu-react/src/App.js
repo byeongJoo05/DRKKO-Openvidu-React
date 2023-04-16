@@ -9,8 +9,26 @@ import styled from "styled-components";
 const APPLICATION_SERVER_URL =
   process.env.NODE_ENV === "production" ? "" : "https://demos.openvidu.io/";
 
-const SessionCSS = styled.div`
-  background: #252525;
+// 화면 중 사람들 얼굴 보여주는 부분
+const HeaderStyle = styled.div`
+  boarder-bottom: 30px solid #64dfdf;
+  display: inline-block;
+`;
+
+const PublisherCard = styled.div`
+  border-radius: 20px;
+  background: #6930c3;
+  margin: 1em;
+  padding: 0.8em;
+  box-shadow: 1px 3px 8px rgba(0, 0, 0, 100);
+`;
+
+const SubScriberCard = styled.div`
+  border-radius: 20px;
+  background: #64dfdf;
+  margin: 1em;
+  padding: 0.8em;
+  box-shadow: 1px 3px 8px rgba(0, 0, 0, 100);
 `;
 
 class App extends Component {
@@ -295,6 +313,7 @@ class App extends Component {
         {/* 세션을 보여주는 페이지 */}
         {this.state.session !== undefined ? (
           <div id="session">
+            {/* body 내 헤더 부분. 고정 쌉가능 */}
             <div id="session-header">
               <h1 id="session-title">{mySessionId}</h1>
               <input
@@ -313,35 +332,48 @@ class App extends Component {
               />
             </div>
 
-            {this.state.mainStreamManager !== undefined ? (
+            {/* {this.state.mainStreamManager !== undefined ? (
               <div id="main-video" className="col-md-6">
                 <UserVideoComponent
                   streamManager={this.state.mainStreamManager}
                 />
               </div>
-            ) : null}
-            <div id="video-container" className="col-md-6">
+            ) : null} */}
+
+            {/* 
+              문제가 생기는 부분.
+
+              publisher는 1 명이고, subscriber는 n 명인데
+              왜 다 publisher로 잡히는걸까?
+
+              
+            */}
+
+            {/* body 내 body~footer 부분. */}
+            <HeaderStyle id="video-container">
+              {/* publisher 화면이 나오게 하는 부분 */}
               {this.state.publisher !== undefined ? (
-                <div
+                <PublisherCard
                   className="stream-container col-md-6 col-xs-6"
                   onClick={() =>
                     this.handleMainVideoStream(this.state.publisher)
                   }
                 >
                   <UserVideoComponent streamManager={this.state.publisher} />
-                </div>
+                </PublisherCard>
               ) : null}
+              {/* subscriber 화면이 나오게 하는 부분 */}
               {this.state.subscribers.map((sub, i) => (
-                <div
+                <SubScriberCard
                   key={sub.id}
                   className="stream-container col-md-6 col-xs-6"
                   onClick={() => this.handleMainVideoStream(sub)}
                 >
                   <span>{sub.id}</span>
                   <UserVideoComponent streamManager={sub} />
-                </div>
+                </SubScriberCard>
               ))}
-            </div>
+            </HeaderStyle>
           </div>
         ) : null}
       </div>

@@ -6,14 +6,13 @@ import "./UserVideo.css";
 const UserVideoComponent = (props) => {
   const Card = styled.div`
     border-radius: 20px;
-    background: #64dfdf;
+    background: #6930c3;
     margin: 1em;
     padding: 0.8em;
     box-shadow: 1px 3px 8px rgba(0, 0, 0, 100);
   `;
 
   const Nickname = styled.div`
-    background: #64dfdf;
     text-align: center;
     font-weight: bold;
     color: white;
@@ -26,7 +25,7 @@ const UserVideoComponent = (props) => {
   };
 
   return (
-    <Card>
+    <div>
       {props.streamManager !== undefined ? (
         <div className="streancomponent">
           <OpenViduVideoComponent streamManager={props.streamManager} />
@@ -35,7 +34,7 @@ const UserVideoComponent = (props) => {
       <div>
         <Nickname>{getNicknameTag()}</Nickname>
       </div>
-    </Card>
+    </div>
   );
 };
 

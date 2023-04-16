@@ -153,6 +153,7 @@ a:hover .demo-logo {
   margin-top: 15px;
 }
 
+/* 이 곳이 헤더인데 이 친구로 커스텀 해야되는건가? */
 #session-header {
   margin-bottom: 20px;
 }
