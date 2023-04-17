@@ -13,8 +13,9 @@ const APPLICATION_SERVER_URL =
 const HeaderStyle = styled.div`
   display: flex;
   width: 100%;
-  background: #276438;
-  display: inline-block;
+  background: #252525;
+  border: 2px solid #6930c3;
+  border-radius: 20px;
 `;
 
 const PublisherCard = styled.div`
@@ -272,6 +273,7 @@ class App extends Component {
 
     return (
       //   join session 하는 페이지. 추 후에 지워야 됨.
+      // container로 잡혀있기 때문에 자동으로 width가 85% 로 줄어들게 됨. 추 후에 이 부분만 줄이던가 해야될듯?
       <div className="container">
         {this.state.session === undefined ? (
           <div id="join">
@@ -319,7 +321,9 @@ class App extends Component {
           </div>
         ) : null}
 
-        {/* 세션을 보여주는 페이지 */}
+        {/* 세션을 보여주는 페이지
+          this.state.session이 없다면 페이지를 보여주면 안된다.
+        */}
         {this.state.session !== undefined ? (
           <div id="session">
             {/* body 내 헤더 부분. 고정 쌉가능 */}
@@ -383,6 +387,8 @@ class App extends Component {
                 </SubScriberCard>
               ))}
             </HeaderStyle>
+            <YoutubePage></YoutubePage>
+            <AllofButtons></AllofButtons>
           </div>
         ) : null}
       </div>
