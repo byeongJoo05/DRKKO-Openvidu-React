@@ -170,7 +170,7 @@ a:hover .demo-logo {
 
 #video-container video {
   position: relative;
-  float: left;
+  /* float: left; */
   cursor: pointer;
 }
 
@@ -224,7 +224,10 @@ a:hover .demo-logo {
 }
 
 /* xs ans md screen resolutions*/
-
+/* 기본값
+  max-width: 991px
+  width: 85%
+*/
 @media screen and (max-width: 991px) {
   .vertical-center {
     width: 85%;

@@ -11,19 +11,28 @@ const APPLICATION_SERVER_URL =
 
 // 화면 중 사람들 얼굴 보여주는 부분
 const HeaderStyle = styled.div`
-  boarder-bottom: 30px solid #64dfdf;
+  display: flex;
+  width: 100%;
+  background: #276438;
   display: inline-block;
 `;
 
 const PublisherCard = styled.div`
+  display: inline-block;
+  width: calc(100% / 5);
+  height: auto;
   border-radius: 20px;
   background: #6930c3;
+  /* width: 70px; */
   margin: 1em;
   padding: 0.8em;
   box-shadow: 1px 3px 8px rgba(0, 0, 0, 100);
 `;
 
 const SubScriberCard = styled.div`
+  display: inline-block;
+  width: calc(100% / 5);
+  height: auto;
   border-radius: 20px;
   background: #64dfdf;
   margin: 1em;
@@ -354,7 +363,7 @@ class App extends Component {
               {/* publisher 화면이 나오게 하는 부분 */}
               {this.state.publisher !== undefined ? (
                 <PublisherCard
-                  className="stream-container col-md-6 col-xs-6"
+                  className="stream-container"
                   onClick={() =>
                     this.handleMainVideoStream(this.state.publisher)
                   }
@@ -366,7 +375,7 @@ class App extends Component {
               {this.state.subscribers.map((sub, i) => (
                 <SubScriberCard
                   key={sub.id}
-                  className="stream-container col-md-6 col-xs-6"
+                  className="stream-container"
                   onClick={() => this.handleMainVideoStream(sub)}
                 >
                   <span>{sub.id}</span>

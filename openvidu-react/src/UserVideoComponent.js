@@ -16,7 +16,7 @@ const UserVideoComponent = (props) => {
     text-align: center;
     font-weight: bold;
     color: white;
-    font-size: 16px;
+    font-size: 10px;
   `;
 
   const getNicknameTag = () => {
@@ -26,14 +26,14 @@ const UserVideoComponent = (props) => {
 
   return (
     <div>
-      {props.streamManager !== undefined ? (
-        <div className="streancomponent">
-          <OpenViduVideoComponent streamManager={props.streamManager} />
-        </div>
-      ) : null}
       <div>
-        <Nickname>{getNicknameTag()}</Nickname>
+        {props.streamManager !== undefined ? (
+          <div className="streamcomponent">
+            <OpenViduVideoComponent streamManager={props.streamManager} />
+          </div>
+        ) : null}
       </div>
+      <Nickname>{getNicknameTag()}</Nickname>
     </div>
   );
 };
