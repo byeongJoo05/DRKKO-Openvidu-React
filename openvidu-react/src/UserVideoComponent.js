@@ -4,13 +4,6 @@ import styled from "styled-components";
 import "./UserVideo.css";
 
 const UserVideoComponent = (props) => {
-  const Card = styled.div`
-    border-radius: 20px;
-    background: #6930c3;
-    margin: 1em;
-    padding: 0.8em;
-    box-shadow: 1px 3px 8px rgba(0, 0, 0, 100);
-  `;
 
   const Nickname = styled.div`
     text-align: center;

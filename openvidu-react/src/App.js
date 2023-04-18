@@ -5,6 +5,7 @@ import React, { Component } from "react";
 import "./App.css";
 import UserVideoComponent from "./UserVideoComponent";
 import styled from "styled-components";
+import { MultiSelect } from "react-multi-select-component";
 
 const APPLICATION_SERVER_URL =
   process.env.NODE_ENV === "production" ? "" : "https://demos.openvidu.io/";
@@ -41,6 +42,37 @@ const SubScriberCard = styled.div`
   box-shadow: 1px 3px 8px rgba(0, 0, 0, 100);
 `;
 
+const AllofButtons = styled.div`
+  display: flex;
+  background: #252525;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+  height: 30%;
+`;
+
+const ExitButton = styled.button`
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  background: red;
+`;
+
+const ReadyButton = styled.button`
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  background: green;
+`;
+
+const ShowParticipant = styled.div`
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  background: blue;
+  text-align: center;
+`;
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -53,6 +85,18 @@ class App extends Component {
       mainStreamManager: undefined, // Main video of the page. Will be the 'publisher' or one of the 'subscribers'
       publisher: undefined,
       subscribers: [],
+      options: [
+        { label: "Grapes 🍇", value: "grapes" },
+        { label: "Mango 🥭", value: "mango" },
+        { label: "Strawberry 🍓", value: "strawberry" },
+        { label: "Watermelon 🍉", value: "watermelon" },
+        { label: "Pear 🍐", value: "pear", disabled: true },
+        { label: "Apple 🍎", value: "apple" },
+        { label: "Tangerine 🍊", value: "tangerine" },
+        { label: "Pineapple 🍍", value: "pineapple" },
+        { label: "Peach 🍑", value: "peach" },
+      ],
+      selected: [],
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -358,8 +402,6 @@ class App extends Component {
 
               publisher는 1 명이고, subscriber는 n 명인데
               왜 다 publisher로 잡히는걸까?
-
-              
             */}
 
             {/* body 내 body~footer 부분. */}
@@ -387,8 +429,36 @@ class App extends Component {
                 </SubScriberCard>
               ))}
             </HeaderStyle>
-            <YoutubePage></YoutubePage>
-            <AllofButtons></AllofButtons>
+            <AllofButtons>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "15%",
+                  gap: "10px",
+                }}
+              >
+                <MultiSelect
+                  options={this.state.options}
+                  value={this.state.selected}
+                  onChange={(selected) => this.setState({ selected })}
+                  labelledBy={"Selected"}
+                  isCreatable={true}
+                />
+                <ShowParticipant>0/5</ShowParticipant>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "15%",
+                  gap: "10px",
+                }}
+              >
+                <ReadyButton>게임준비</ReadyButton>
+                <ExitButton>나가기</ExitButton>
+              </div>
+            </AllofButtons>
           </div>
         ) : null}
       </div>
