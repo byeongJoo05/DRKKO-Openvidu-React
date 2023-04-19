@@ -98,7 +98,6 @@ class App extends Component {
     this.onbeforeunload = this.onbeforeunload.bind(this);
     this.setSongSelected = this.setSongSelected.bind(this);
   }
-
   componentDidMount() {
     window.addEventListener("beforeunload", this.onbeforeunload);
 
@@ -117,11 +116,8 @@ class App extends Component {
     window.removeEventListener("beforeunload", this.onbeforeunload);
   }
 
-  setSongSelected(selected) {
-    const songSelected = selected.map(({ value, label }) => ({
-      label,
-      value: this.parseSongValue(value),
-    }));
+  // 노래에 관련된 useState
+  setSongSelected(songSelected) {
     this.setState({ songSelected });
   }
 
@@ -320,20 +316,18 @@ class App extends Component {
     }
   }
 
-  // 선택된 값 파싱 함수
-  parseSongValue = (value) => {
-    const [musicId, videoId] = value.split("_");
-    return { musicId, videoId };
-  };
-
   render() {
+    console.log(this.state.songSelected);
     const mySessionId = this.state.mySessionId;
     const myUserName = this.state.myUserName;
 
     // 음악을 고르기 위한 옵션 - value는 "musicId_videoId처럼 만들어지게 됨."
     const options = this.state.songs.map((song) => ({
       label: `${song.musicTitle} - ${song.singer}`,
-      value: JSON.stringify({ musicId: song.musicId, videoId: song.videoId }),
+      value: JSON.stringify({
+        musicId: song.musicId,
+        videoId: song.videoId,
+      }),
     }));
 
     return (
@@ -459,7 +453,7 @@ class App extends Component {
                   gap: "10px",
                 }}
               >
-                <pre>{this.state.selectedSong}</pre>
+                <pre>{JSON.stringify(this.state.songSelected)}</pre>
                 <MultiSelect
                   options={options}
                   value={this.state.songSelected}
