@@ -85,18 +85,8 @@ class App extends Component {
       mainStreamManager: undefined, // Main video of the page. Will be the 'publisher' or one of the 'subscribers'
       publisher: undefined,
       subscribers: [],
-      options: [
-        { label: "Grapes 🍇", value: "grapes" },
-        { label: "Mango 🥭", value: "mango" },
-        { label: "Strawberry 🍓", value: "strawberry" },
-        { label: "Watermelon 🍉", value: "watermelon" },
-        { label: "Pear 🍐", value: "pear", disabled: true },
-        { label: "Apple 🍎", value: "apple" },
-        { label: "Tangerine 🍊", value: "tangerine" },
-        { label: "Pineapple 🍍", value: "pineapple" },
-        { label: "Peach 🍑", value: "peach" },
-      ],
-      selected: [],
+      songs: [],
+      songSelected: [],
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -106,14 +96,33 @@ class App extends Component {
     this.handleChangeUserName = this.handleChangeUserName.bind(this);
     this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
     this.onbeforeunload = this.onbeforeunload.bind(this);
+    this.setSongSelected = this.setSongSelected.bind(this);
   }
 
   componentDidMount() {
     window.addEventListener("beforeunload", this.onbeforeunload);
+
+    axios
+      .get("http://localhost:80/api/v1/musics/all")
+      .then((response) => {
+        this.setState({ songs: response.data });
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   componentWillUnmount() {
     window.removeEventListener("beforeunload", this.onbeforeunload);
+  }
+
+  setSongSelected(selected) {
+    const songSelected = selected.map(({ value, label }) => ({
+      label,
+      value: this.parseSongValue(value),
+    }));
+    this.setState({ songSelected });
   }
 
   onbeforeunload(event) {
@@ -311,9 +320,21 @@ class App extends Component {
     }
   }
 
+  // 선택된 값 파싱 함수
+  parseSongValue = (value) => {
+    const [musicId, videoId] = value.split("_");
+    return { musicId, videoId };
+  };
+
   render() {
     const mySessionId = this.state.mySessionId;
     const myUserName = this.state.myUserName;
+
+    // 음악을 고르기 위한 옵션 - value는 "musicId_videoId처럼 만들어지게 됨."
+    const options = this.state.songs.map((song) => ({
+      label: `${song.musicTitle} - ${song.singer}`,
+      value: JSON.stringify({ musicId: song.musicId, videoId: song.videoId }),
+    }));
 
     return (
       //   join session 하는 페이지. 추 후에 지워야 됨.
@@ -438,11 +459,12 @@ class App extends Component {
                   gap: "10px",
                 }}
               >
+                <pre>{this.state.selectedSong}</pre>
                 <MultiSelect
-                  options={this.state.options}
-                  value={this.state.selected}
-                  onChange={(selected) => this.setState({ selected })}
-                  labelledBy={"Selected"}
+                  options={options}
+                  value={this.state.songSelected}
+                  onChange={this.setSongSelected}
+                  labelledBy={"노래를 골라주세요."}
                   isCreatable={true}
                 />
                 <ShowParticipant>0/5</ShowParticipant>
